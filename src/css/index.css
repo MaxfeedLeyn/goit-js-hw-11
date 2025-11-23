@@ -104,6 +104,7 @@ form button:focus{
     color: #000;
     margin: 0 auto;
     margin-top: 20px;
+    display: block;
 }
 
 .loader:before,
