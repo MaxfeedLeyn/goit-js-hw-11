@@ -1,8 +1,21 @@
 import SimpleLightbox from 'simplelightbox';
 
-function createGallety(images) {
-    const galleryContainer = document.querySelector('.gallery');
-    const galleryImages = images.map(image => `
+let gallery;
+
+function createGallery(images) {
+  const galleryContainer = document.querySelector('.gallery');
+
+  if (galleryContainer === null) {
+    const container = document.querySelector('.container');
+    const htmlString = '<ul class="gallery"></ul>';
+
+    container.insertAdjacentHTML('afterend', htmlString);
+    galleryContainer = document.querySelector('.gallery');
+  }
+
+  const galleryImages = images
+    .map(
+      image => `
         <li class="gallery-item">
             <a class="gallery-link" href="${image.largeImageURL}">
                 <img class="gallery-image" src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
@@ -13,31 +26,41 @@ function createGallety(images) {
                 <p class="gallery-info-item">Comments <span>${image.comments}</span></p>
                 <p class="gallery-info-item">Downloads <span>${image.downloads}</span></p>
             </div>
-        </li>`)
-        .join('');
-    
-    galleryContainer.insertAdjacentHTML('beforeend', galleryImages);
+        </li>`
+    )
+    .join('');
 
-    let gallery = new SimpleLightbox('.gallery a', {
-        captionsData: 'alt',
-        captionDelay: 250,
+  if (gallery === undefined) {
+    gallery = new SimpleLightbox('.gallery a', {
+      captionsData: 'alt',
+      captionDelay: 250,
     });
-    gallery.refresh();
+  }
+  gallery.refresh();
+
+  galleryContainer.insertAdjacentHTML('beforeend', galleryImages);
 }
 
 function clearGallery() {
-    const galleryContainer = document.querySelector('.gallery');
-    galleryContainer.innerHTML = '';
+  const galleryContainer = document.querySelector('.gallery');
+  galleryContainer.innerHTML = '';
 }
 
 function showLoader() {
-    const loader = document.querySelector('.loader');
-    loader.classList.remove('visually-hidden');
+  const loader = document.querySelector('.loader');
+  if (loader === null) {
+    const container = document.querySelector('.container');
+    const htmlString = '<span class="loader visually-hidden"></span>';
+
+    container.insertAdjacentHTML('afterend', htmlString);
+    loader = document.querySelector('.loader');
+  }
+  loader.classList.remove('visually-hidden');
 }
 
 function hideLoader() {
-    const loader = document.querySelector('.loader');
-    loader.classList.add('visually-hidden');
+  const loader = document.querySelector('.loader');
+  loader.classList.add('visually-hidden');
 }
 
-export { createGallety, clearGallery, showLoader, hideLoader };
+export { createGallery, clearGallery, showLoader, hideLoader };
