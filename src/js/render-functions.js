@@ -3,7 +3,7 @@ import SimpleLightbox from 'simplelightbox';
 let gallery;
 
 function createGallery(images) {
-  const galleryContainer = document.querySelector('.gallery');
+  let galleryContainer = document.querySelector('.gallery');
 
   if (galleryContainer === null) {
     const container = document.querySelector('.container');
@@ -36,9 +36,9 @@ function createGallery(images) {
       captionDelay: 250,
     });
   }
-  gallery.refresh();
 
   galleryContainer.insertAdjacentHTML('beforeend', galleryImages);
+  gallery.refresh();
 }
 
 function clearGallery() {
@@ -47,12 +47,12 @@ function clearGallery() {
 }
 
 function showLoader() {
-  const loader = document.querySelector('.loader');
+  let loader = document.querySelector('.loader');
   if (loader === null) {
     const container = document.querySelector('.container');
     const htmlString = '<span class="loader visually-hidden"></span>';
 
-    container.insertAdjacentHTML('afterend', htmlString);
+    container.insertAdjacentHTML('beforeend', htmlString);
     loader = document.querySelector('.loader');
   }
   loader.classList.remove('visually-hidden');
